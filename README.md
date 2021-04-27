@@ -6,6 +6,7 @@ A demo API for document detection and extraction using:
 * [FastAPI](https://fastapi.tiangolo.com/advanced/websockets/)
 * [Docker](https://docs.docker.com/reference/)
 
+A [simple demo IPython notebook can be found here](demo.ipynb).
 
 # Usage
 
