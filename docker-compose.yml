@@ -1,0 +1,40 @@
+version: "3.0"
+
+# Multiple bash commands requires `bash -c`
+# https://github.com/celery/celery/issues/5268#issuecomment-452448976
+
+# Multi-line commands
+# https://stackoverflow.com/a/30064175
+
+# Interactive container
+# https://stackoverflow.com/a/39150040
+
+services:
+  scanner:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: scanner/python:3.7.10
+    container_name: scanner_00
+    ipc: host
+    ports:
+      - ${WEBSOCKET_PORT}:${WEBSOCKET_PORT}
+    working_dir: /master/scanner
+    env_file:
+      - .env
+
+  test:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: scanner/python:3.7.10
+    container_name: test_00
+    ipc: host
+    command: bash -c "bash"
+    volumes:
+      - .:/master/scanner
+    working_dir: /master/scanner
+    env_file:
+      - .env
+    stdin_open: true
+    tty: true

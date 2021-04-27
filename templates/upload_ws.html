@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Debugging Page</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+</head>
+<body>
+  <section class="section">
+    <div class="columns is-centered has-text-centered content">
+      <div class="column is-four-fifths">
+        <h1 class="title">
+          Debugging Page (file upload)
+        </h1>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="columns is-centered has-text-centered content">
+      <div class="column is-narrow">
+        <h3>Upload an image file to test</h3>
+      </div>
+      <div class="column is-narrow">
+        <input type="file" id="files" accept="image/*" />
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="columns is-centered has-text-centered content">
+      <div class="column is-one-quarter">
+        <h2>Source</h2>
+        <img src="{{url_for('static', path='default.jpg')}}" id="doc_source" width="600"/>
+      </div>
+      <div class="column is-one-quarter">
+        <h2>Grayscale</h2>
+        <img src="{{url_for('static', path='default.jpg')}}" id="doc_vis" width="600"/>
+      </div>
+      <div class="column is-one-quarter">
+        <h2>Result</h2>
+        <h4 class="pt-2">Success = <span id="det_success">pending</span></h4>
+        <img src="{{url_for('static', path='default.jpg')}}" id="doc_result" />
+        <h4 class="pt-5">Doc points</h4>
+        <p id="doc_points"></p>
+      </div>
+    </div>
+  </section>
+  <script>
+    var ws = new WebSocket(`ws://${document.domain}:${location.port}/detect_doc/debug_upload`);
+
+    let doc_source = document.getElementById('doc_source');
+    // https://medium.com/a-layman/send-images-to-the-flask-server-and-show-images-on-the-browser-bcdfb81d16cd
+    function handleFileSelect(ele){
+        var file = ele.target.files[0];
+        var fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        console.log(`File loaded: name=${file.name}    type=${file.type}    size=${file.size}`);
+        fileReader.onload = () => {
+            var data = fileReader.result;
+            ws.send(JSON.stringify({
+                "image": data.replace('data:' + file.type + ';base64,', ''),
+                "state": [[null, null, null, null, null, null]],
+            }));
+            doc_source.src = data;
+         }
+    }
+    document.getElementById('files').addEventListener('change', handleFileSelect, false);
+
+    function updateImage(data, img) {
+        img.src = 'data:image/jpeg;base64,' + data;
+    }
+    ws.onmessage = function(event) {
+        data = JSON.parse(event.data);
+        updateImage(data.doc, document.getElementById('doc_result'));
+        updateImage(data.doc_vis, document.getElementById('doc_vis'));
+        document.getElementById('det_success').innerHTML = data.det_success;
+        document.getElementById('doc_points').innerHTML = data.doc_points;
+    };
+
+  </script>
+</body>
+</html>

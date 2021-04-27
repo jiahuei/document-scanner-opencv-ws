@@ -1,0 +1,35 @@
+# Scanner
+cmake~=3.18.4
+#dlib~=19.21.1      # slow build times (~ 5 mins) on GitHub Actions, disable for now
+imutils~=0.5.4
+matplotlib~=3.3.4
+numpy~=1.20.1
+opencv-contrib-python~=4.5.1.48
+opencv-python~=4.5.1.48
+Pillow~=8.1.2
+pydantic~=1.8.1
+pytest~=6.2.2
+pytest-subtests~=0.4.0
+requests~=2.25.1
+scipy~=1.6.1
+six~=1.15.0
+tqdm~=4.59.0
+
+# FastAPI
+aiofiles~=0.6.0
+fastapi~=0.63.0
+gunicorn~=20.0.4
+Hypercorn[uvloop]~=0.11.2
+uvicorn[standard]~=0.13.4   # Install uvicorn with "Cython-based" dependencies and websocket protocol
+websocket-client~=0.58.0
+
+# Flask & SocketIO
+celery~=5.0.5
+eventlet~=0.30.2
+Flask~=1.1.2
+Flask-Compress~=1.9.0
+flask-socketio~=5.0
+huey~=2.3.1
+kombu~=5.0.2
+python-socketio~=5.0
+redis~=3.5.3

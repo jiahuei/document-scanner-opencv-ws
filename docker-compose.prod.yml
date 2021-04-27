@@ -1,0 +1,13 @@
+version: "3.0"
+
+services:
+  scanner:
+    working_dir: /master/prod
+    command: bash -c "
+      gunicorn main_fastapi_ws:app
+      -w ${WEBSOCKET_NUM_WORKERS}
+      -k uvicorn.workers.UvicornWorker
+      --bind ${WEBSOCKET_HOST}:${WEBSOCKET_PORT}
+      --log-level ${WEBSOCKET_LOG_LEVEL}
+      --access-logfile ${WEBSOCKET_LOG_FILE}
+      "
