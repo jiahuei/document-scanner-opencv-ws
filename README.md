@@ -1,10 +1,10 @@
 # OpenCV Document Scanner
 
 A demo API for document detection and extraction using:
-* OpenCV
-* WebSocket
-* [FastAPI](https://fastapi.tiangolo.com/)
-* Docker
+* [OpenCV](https://docs.opencv.org/master/)
+* [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
+* [FastAPI](https://fastapi.tiangolo.com/advanced/websockets/)
+* [Docker](https://docs.docker.com/reference/)
 
 
 # Usage
