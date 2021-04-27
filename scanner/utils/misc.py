@@ -131,6 +131,7 @@ def round_to_nearest_odd(x):
 
 
 def numpy_tolist(array, decimals):
+    """ Convert NumPy array to Python list, with specified precision. """
     def _round(arr):
         if isinstance(arr, (float, int)):
             return round(arr, decimals)

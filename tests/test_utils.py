@@ -24,7 +24,7 @@ class TestUtils(unittest.TestCase):
                 misc.round_to_nearest_odd(5.2 + 4j)
 
     def test_numpy_tolist(self):
-        """ Round to nearest odd number. Round up for ties. """
+        """ Convert NumPy array to Python list, with specified precision. """
         with self.subTest(f"Floats"):
             y = misc.numpy_tolist(np.float32([[3.21, 4.5], [5.9124, 21]]), 1)
             self.assertEqual(y, [[3.2, 4.5], [5.9, 21.0]])
