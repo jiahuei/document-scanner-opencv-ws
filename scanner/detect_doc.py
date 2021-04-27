@@ -214,7 +214,7 @@ def visualise_detection(detector: _Detector, image: np.ndarray):
     logger.info(f"Received image of shape: {image.shape}")
     try:
         res = detector(image)
-        det_success = True
+        det_success = res["doc"] is not None
     except (ValueError, TypeError, KeyError):
         res = {}
         det_success = False

@@ -2,6 +2,8 @@
 """
 Created on 07 Mar 2021 18:17:27
 @author: jiahuei
+
+python -m pytest
 """
 import unittest
 import os
@@ -14,7 +16,7 @@ from scanner import utils
 class TestA4Detector(unittest.TestCase):
 
     def setUp(self):
-        test_image = read_image(os.path.join(utils.misc.REPO_DIR, "tests", "data", "test_w8_ben_warp.jpg"))
+        test_image = read_image(os.path.join(utils.misc.REPO_DIR, "tests", "data", "test_w8_ben.jpg"))
         self.test_image_480, _ = resize_image(test_image, max_side=480)
         self.test_image_224, _ = resize_image(test_image, max_side=224)
 

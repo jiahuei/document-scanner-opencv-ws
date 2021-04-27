@@ -30,7 +30,9 @@ log_level = str(os.getenv("WEBSOCKET_LOG_LEVEL", "info"))
 misc_utils.configure_logging(log_level.upper(), logger_obj=logger)
 
 doc_detector = A4Detector(
-    use_image_features=bool(os.getenv("DET_SIFT_FEATURE", False))
+    use_image_features=bool(os.getenv("DET_SIFT_FEATURE", False)),
+    doc_extract_width=int(os.getenv("DOC_EXTRACT_WIDTH", 1414)),
+    doc_extract_height=int(os.getenv("DOC_EXTRACT_HEIGHT", 2000)),
 )
 
 app = FastAPI()

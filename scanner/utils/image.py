@@ -341,7 +341,7 @@ def generate_bbox(image):
 
     # Approx polygon
     perimeter = cv2.arcLength(cnt, True)
-    epsilon = 0.0035 * perimeter
+    epsilon = 0.01 * perimeter
     bbox = np.squeeze(cv2.approxPolyDP(cnt, epsilon, closed=True))
     # TODO: do contour bounding if more than 4 sides
     if len(bbox.shape) < 2:
@@ -351,20 +351,22 @@ def generate_bbox(image):
     elif bbox.shape[0] == 4:
         pass
     else:
-        # Compute the length of the sides. Index start from negative to wrap around the polygon.
-        side_lens = [dist.euclidean(bbox[i], bbox[i + 1]) for i in range(-1, bbox.shape[0] - 1)]
-        # Get the indices of the top 4 largest lines.
-        # (i -1) is used as we started from negative 1 in above.
-        # TODO: perhaps take into consideration the line angle to ensure only 1 line is kept per side
-        largest_side_idx = [i - 1 for i, _ in enumerate(side_lens) if _ >= sorted(side_lens, reverse=True)[3]]
-        # Form the 4 lines, each represented as ((x0, y0), (x1, y1))
-        lines = [(bbox[i], bbox[i + 1]) for i in largest_side_idx][:4]
-        try:
-            # Try to compute the intersection points
-            bbox = [line_intersection(lines[i], lines[i + 1]) for i in range(-1, 3)]
-            bbox = np.array(bbox, dtype=np.int32)
-        except RuntimeError:
-            bbox = None
+        bbox = None
+        # Disable for now
+        # # Compute the length of the sides. Index start from negative to wrap around the polygon.
+        # side_lens = [dist.euclidean(bbox[i], bbox[i + 1]) for i in range(-1, bbox.shape[0] - 1)]
+        # # Get the indices of the top 4 largest lines.
+        # # (i -1) is used as we started from negative 1 in above.
+        # # TODO: perhaps take into consideration the line angle to ensure only 1 line is kept per side
+        # largest_side_idx = [i - 1 for i, _ in enumerate(side_lens) if _ >= sorted(side_lens, reverse=True)[3]]
+        # # Form the 4 lines, each represented as ((x0, y0), (x1, y1))
+        # lines = [(bbox[i], bbox[i + 1]) for i in largest_side_idx][:4]
+        # try:
+        #     # Try to compute the intersection points
+        #     bbox = [line_intersection(lines[i], lines[i + 1]) for i in range(-1, 3)]
+        #     bbox = np.array(bbox, dtype=np.int32)
+        # except RuntimeError:
+        #     bbox = None
     return bbox
 
 
