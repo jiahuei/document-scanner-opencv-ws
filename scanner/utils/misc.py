@@ -12,7 +12,7 @@ import time
 import numpy as np
 import functools
 import itertools
-from typing import Union, Any
+from typing import Union, Optional, Any
 
 logger = logging.getLogger(__name__)
 
@@ -68,7 +68,7 @@ def configure_logging(
     return logger_obj
 
 
-def get(dict_obj: dict, key: Any, default_value: Any):
+def get(dict_obj: dict, key: Any, default_value: Optional[Any] = None):
     """
     Like dict.get() but returns default value if the value is None or key is missing.
     """

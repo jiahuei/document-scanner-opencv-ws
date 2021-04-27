@@ -196,9 +196,8 @@ class A4Detector(_Detector):
             doc_points = utils.misc.numpy_tolist(doc_points, 1)
         return {
             "doc": doc,
-            "doc_vis": doc_det["debug"].get("img_threshold", None),
             "doc_points": doc_points,  # will be None if doc detection failed
-            "debug": {},
+            "debug": {"doc_vis": get(doc_det["debug"], "img_threshold")},
         }
 
 
@@ -221,7 +220,7 @@ def visualise_detection(detector: _Detector, image: np.ndarray):
     output = {
         "det_success": det_success,
         "doc": image_utils.ndarray_to_base64str(get(res, "doc", np.full_like(image, 128))),
-        "doc_vis": image_utils.ndarray_to_base64str(get(res, "doc_vis", np.full_like(image, 128))),
+        "doc_vis": image_utils.ndarray_to_base64str(get(res["debug"], "doc_vis", np.full_like(image, 128))),
         "doc_points": json.dumps(get(res, "doc_points", [None] * 4)),
     }
     return output
