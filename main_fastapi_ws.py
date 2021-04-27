@@ -70,7 +70,7 @@ async def detect_document(websocket: WebSocket, mode: str):
                 image=image
             )
             elapsed_time = perf_counter() - tic
-            logger.info(f"Time taken for card check: {elapsed_time:.6f} sec")
+            logger.info(f"Time taken: {elapsed_time:.6f} sec")
             await websocket.send_json(res, mode="text")
     except WebSocketDisconnect:
         logger.info(f'"WebSocket {websocket.url.path}" [disconnected]')
